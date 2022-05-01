@@ -2,16 +2,27 @@ import {CaravanData} from "../../../pages";
 import styled from "styled-components";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from "react-responsive-carousel";
+import Image from "next/image"
 
 
 const Caravan = ({data}: { data: CaravanData }) => {
     const a = 'a'
     return (
         <CaravanWrapper>
-            <Carousel showArrows={true}>
+            <Carousel showArrows={true} autoPlay={false} showThumbs={false} showIndicators={false} showStatus={false}>
                 {data.pictures.map((img) =>
                 <div key={img}>
-                    <img width={200} src={img}/>
+                    {/*<img src={img}/>*/}
+                    <Image
+                        placeholder={"blur"}
+                        layout={"intrinsic"}
+                        blurDataURL={"https://cdn.dribbble.com/users/1183435/screenshots/6654886/comp_4.gif"}
+                        width={300}
+                        height={200}
+                        src={img}
+                        objectFit={"cover"}
+                        lazyBoundary={"500px"}
+                    />
                 </div>
                 )}
             </Carousel>
