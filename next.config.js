@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['d35xwkx70uaomf.cloudfront.net', "https://d35xwkx70uaomf.cloudfront.net"],
+    domains: ['d35xwkx70uaomf.cloudfront.net'],
   },
 }
