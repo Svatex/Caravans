@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import {Heading} from "../src/styles/layout-styles";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Caravan from "../src/components/caravans/caravan";
+import  Slider  from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
 
 export interface CaravanData {
     location: string;
@@ -19,7 +22,6 @@ export interface CaravanData {
 
 const Home = () => {
     const [data, setData] = useState<Array<CaravanData> | undefined>()
-    console.log(data)
 
     const getCaravanData = async () => {
         axios.get("/api/data")
@@ -35,6 +37,16 @@ const Home = () => {
     return (
         <PageWrapper>
             <Heading>Prague Labs</Heading>
+
+            <div style={{width: 500, padding: 50}}>
+                <Slider
+                    range
+                    min={0}
+                    max={2000}
+                    defaultValue={[0, 2000]}
+                />
+            </div>
+
             <CaravansWrapper>
                 {data && data.map((caravan) =>
                     <Caravan key={caravan.name} data={caravan}/>
