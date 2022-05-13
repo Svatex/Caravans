@@ -3,8 +3,10 @@ import {Heading} from "../src/styles/layout-styles";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Caravan from "../src/components/caravans/caravan";
-import  Slider  from 'rc-slider';
+import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import {Form, Formik} from "formik";
+import FormSection from "../src/components/filter/form-section";
 
 
 export interface CaravanData {
@@ -37,16 +39,40 @@ const Home = () => {
     return (
         <PageWrapper>
             <Heading>Prague Labs</Heading>
+            <FormWrapper>
+                <Formik
+                    initialValues={{}}
+                    validateOnChange={false}
+                    validateOnMount={false}
+                    onSubmit={() => console.log("SUBMIT")}
+                >
+                    {({errors, touched, values}) => {
+                        return (
+                            <FormikForm>
+                                <FormSection heading={"Cena za den"}>
+                                    <Slider
+                                        range
+                                        min={0}
+                                        max={2000}
+                                        defaultValue={[0, 2000]}
+                                        step={20}
+                                        onChange={(value => console.log(value))}
+                                    />
+                                </FormSection>
+                                <FormSection heading={"Typ karavanu"}>
+                                    ABC
+                                </FormSection>
+                                <FormSection heading={"Okamžitá rezervace"}>
+                                    BFLM
+                                </FormSection>
+                            </FormikForm>
+                        )
+                    }}
 
-            <div style={{width: 500, padding: 50}}>
-                <Slider
-                    range
-                    min={0}
-                    max={2000}
-                    defaultValue={[0, 2000]}
-                />
-            </div>
+                </Formik>
 
+
+            </FormWrapper>
             <CaravansWrapper>
                 {data && data.map((caravan) =>
                     <Caravan key={caravan.name} data={caravan}/>
@@ -69,6 +95,13 @@ const CaravansWrapper = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 `
+const FormWrapper = styled.div`
+  width: 100%;
+`
 
+const FormikForm = styled.div`
+  width: 100%;
+  display: flex;
+`
 
 export default Home
