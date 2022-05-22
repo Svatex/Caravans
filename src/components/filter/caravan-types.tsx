@@ -89,20 +89,21 @@ const CaravanType = styled.div`
   @media (max-width: 420px) {
     height: 110px;
   }
-
-
+  
   :hover {
     border: 2px solid ${colorTheme.Green};
+    margin: 5px 4px;
   }
 
   &.active {
     border: 2px solid ${colorTheme.Green};
+    margin: 5px 4px;
   }
 `
 
 const Label = styled.label`
   cursor: pointer;
-  padding: 20px;
+  padding: 20px 15px;
 
   @media (max-width: 420px) {
     padding: 10px;
@@ -119,7 +120,7 @@ const CustomField = styled(Field)`
 const TypeTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 140px;
+  max-width: 130px;
 
   @media (max-width: 420px) {
     max-width: 110px;

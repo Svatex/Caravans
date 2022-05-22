@@ -21,14 +21,14 @@ const FormSection = ({children, heading}: Props) => {
 export default FormSection
 
 const SectionWrapper = styled.div`
-  min-width: 20%;
+  min-width: 24%;
   width: fit-content;
   min-height: 170px;
   border: 1px solid ${colorTheme.Beige};
   padding: 10px;
 
   @media (max-width: 1366px) {
-    min-height: 250px;
+    min-height: 260px;
   }
 
   @media (max-width: 850px) {
@@ -38,4 +38,6 @@ const SectionWrapper = styled.div`
 `
 
 const SectionName = styled.p`
+    color: ${colorTheme.DarkGrey};
+  padding: 5px;
 `
