@@ -26,6 +26,15 @@ const SectionWrapper = styled.div`
   min-height: 170px;
   border: 1px solid ${colorTheme.Beige};
   padding: 10px;
+
+  @media (max-width: 1366px) {
+    min-height: 250px;
+  }
+
+  @media (max-width: 850px) {
+    width: 100%;
+    min-height: 100px;
+  }
 `
 
 const SectionName = styled.p`

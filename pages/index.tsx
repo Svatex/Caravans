@@ -99,6 +99,10 @@ const FormikForm = styled.div`
   justify-content: center;
   align-items: center;
   height: fit-content;
+
+  @media (max-width: 850px) {
+    flex-wrap: wrap;
+  }
 `
 
 
