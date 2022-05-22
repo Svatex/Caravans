@@ -26,7 +26,7 @@ const SectionWrapper = styled.div`
   padding: 10px;
   margin: 10px;
   height: 170px;
-  background-color: orange;
+  border: 1px solid black;
 `
 
 const SectionName = styled.p`

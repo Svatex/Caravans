@@ -22,13 +22,37 @@ export interface CaravanData {
     pictures: string[];
 }
 
+interface Filter {
+    topRange: number,
+    bottomRange: 0,
+    instantBookable: string,
+    //TODO: ARRAY!
+    checked: any
+}
+
+const BOTTOM_RANGE_LIMIT = 0
+const TOP_RANGE_LIMIT = 4000
+
 const Home = () => {
-    const [data, setData] = useState<Array<CaravanData> | undefined>()
+    const [caravans, setCaravans] = useState<Array<CaravanData> | undefined>()
+    const [dataToDisplay, setDataToDisplay] = useState<Array<CaravanData> | undefined>()
+    const [filter, setFiler] = useState<Filter>({
+            bottomRange: BOTTOM_RANGE_LIMIT,
+            topRange: TOP_RANGE_LIMIT,
+            instantBookable: "true",
+            checked: []
+        }
+    )
+
+
+    const caravansTypes = ["Integrated", "Campervan", "BuiltIn", "Alcove"];
 
     const getCaravanData = async () => {
         axios.get("/api/data")
             .then((res) => {
-                setData(res.data.items)
+                const caravanData = res.data.items
+                setCaravans(caravanData)
+                setDataToDisplay(caravanData)
             })
     }
 
@@ -37,7 +61,33 @@ const Home = () => {
         getCaravanData()
     }, [])
 
-    const caravans = ["Integrated", "Campervan", "BuiltIn", "Alcove"];
+    useEffect(() => {
+        const filterData = () => {
+            return caravans?.filter(
+                (caravan) => {
+                    const {topRange, bottomRange, checked, instantBookable} = filter
+                    const {price, vehicleType} = caravan
+                    const isInstantBookable = (instantBookable === "true");
+
+                    if (checked.length === 0) {
+                        return (
+                            price < topRange &&
+                            price > bottomRange &&
+                            isInstantBookable === caravan.instantBookable
+                        )
+                    }
+                    return (
+                        price < topRange &&
+                        price > bottomRange &&
+                        isInstantBookable === caravan.instantBookable &&
+                        checked.includes(vehicleType)
+                    )
+                })
+        }
+        console.log(filterData())
+        setDataToDisplay(filterData())
+    }, [filter, caravans])
+
 
     return (
         <PageWrapper>
@@ -45,49 +95,56 @@ const Home = () => {
             <FormWrapper>
                 <Formik
                     initialValues={{
-                        topRange: 0,
-                        bottomRange: 2000,
-                        instantBookable: "Ano",
+                        bottomRange: 0,
+                        topRange: TOP_RANGE_LIMIT,
+                        instantBookable: "true",
                         checked: []
                     }}
                     validateOnChange={false}
                     validateOnMount={false}
-                    onSubmit={(value) => console.log(value)}
+                    onSubmit={(value) => {
+                        setFiler(value)
+                    }}
                 >
-                    {({submitForm, handleChange, values, setFieldValue}) => {
+                    {({
+                          submitForm,
+                          handleChange,
+                          values,
+                          setFieldValue
+                      }) => {
                         return (
                             <FormikForm>
                                 <FormSection heading={"Cena za den"}>
                                     <Slider
                                         range
-                                        min={0}
-                                        max={2000}
-                                        defaultValue={[0, 2000]}
-                                        step={20}
-                                        value={[values.topRange, values.bottomRange]}
+                                        min={BOTTOM_RANGE_LIMIT}
+                                        max={TOP_RANGE_LIMIT}
+                                        defaultValue={[BOTTOM_RANGE_LIMIT, TOP_RANGE_LIMIT]}
+                                        step={100}
+                                        value={[values.bottomRange, values.topRange]}
                                         onChange={((value: any) => {
-                                            setFieldValue('topRange', value[0]);
-                                            setFieldValue('bottomRange', value[1]);
+                                            setFieldValue('bottomRange', value[0]);
+                                            setFieldValue('topRange', value[1]);
                                             submitForm()
                                         })}
                                     />
                                     <Field
-                                        name="topRange"
+                                        name="bottomRange"
                                         type="number"
                                         step={"20"}
-                                        min={0}
-                                        max={2000}
+                                        min={BOTTOM_RANGE_LIMIT}
+                                        max={TOP_RANGE_LIMIT}
                                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                             handleChange(e)
                                             submitForm()
                                         }}
                                     />
                                     <Field
-                                        name="bottomRange"
+                                        name="topRange"
                                         type="number"
                                         step={"20"}
-                                        min={0}
-                                        max={2000}
+                                        min={BOTTOM_RANGE_LIMIT}
+                                        max={TOP_RANGE_LIMIT}
                                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                             handleChange(e)
                                             submitForm()
@@ -96,52 +153,34 @@ const Home = () => {
 
                                 </FormSection>
                                 <FormSection heading={"Typ karavanu"}>
-                                    <div>
-                                        {caravans.map((caravan) => {
+                                    <TypesWrapper>
+                                        {caravansTypes.map((type) => {
                                             return (
-                                                <Label key={caravan}>
-                                                    <CustomField
-                                                        type="checkbox"
-                                                        name="checked"
-                                                        value={caravan}
-                                                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                                            handleChange(e)
-                                                            submitForm()
-                                                        }}
-                                                    />
-                                                    {caravan}
-                                                </Label>
+                                                <CaravanType
+                                                    key={type}
+                                                    className={
+                                                        values.checked.includes(type) ? "active" : ""
+                                                    }
+                                                >
+                                                    <Label
+                                                    >
+                                                        <CustomField
+                                                            type="checkbox"
+                                                            name="checked"
+                                                            value={type}
+
+                                                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                                                handleChange(e)
+                                                                submitForm()
+                                                            }}
+                                                        />
+                                                        {type}
+                                                    </Label>
+                                                </CaravanType>
+
                                             )
                                         })}
-                                    </div>
-{/*
-                                    <Label key={caravan} id={caravan}>
-
-                                        <CustomField
-                                            name={caravan}
-                                            render={({ field, form }) => {
-                                                return (
-                                                    <input
-                                                        type="checkbox"
-                                                        id={caravan}
-                                                        checked={field.value}
-                                                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                                            setFieldValue(caravan, e.target.value);
-                                                            submitForm()
-                                                        }}
-                                                        {...field}
-                                                    />
-                                                );
-                                            }}
-                                        />
-                                        {caravan}
-                                    </Label>
-*/}
-
-
-
-
-
+                                    </TypesWrapper>
                                 </FormSection>
                                 <FormSection heading={"Okamžitá rezervace"}>
                                     <Field
@@ -152,8 +191,8 @@ const Home = () => {
                                             submitForm()
                                         }}
                                     >
-                                        <option value="Ano">Ano</option>
-                                        <option value="Ne">Ne</option>
+                                        <option value={"true"}>Ano</option>
+                                        <option value={"false"}>Ne</option>
                                     </Field>
                                 </FormSection>
                             </FormikForm>
@@ -161,12 +200,11 @@ const Home = () => {
                     }}
 
                 </Formik>
-
-
             </FormWrapper>
             <CaravansWrapper>
-                {data && data.map((caravan) =>
-                    <Caravan key={caravan.name} data={caravan}/>
+                {dataToDisplay && dataToDisplay.map((caravan) =>
+                    //TODO: better solution for key
+                    <Caravan key={caravan.name + Math.random()} data={caravan}/>
                 )}
             </CaravansWrapper>
         </PageWrapper>
@@ -195,28 +233,43 @@ const FormikForm = styled.div`
   display: flex;
 `
 
-const Label = styled.label`
+const TypesWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+`
+
+const CaravanType = styled.div`
   border: 1px solid #EDEAE3;
-  cursor: pointer;
   border-radius: 8px;
+  width: fit-content;
+  height: 90px;
   color: #9C8C8C;
   font-size: 16px;
-  margin: 0 16px 16px 0;
-  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   :hover {
     border: 2px solid #119383;
   }
 
-  :active {
-    border-color: transparent;
-    background-color: #a4e0fd;
+  &.active {
+    border: 2px solid #119383;
   }
+`
+
+const Label = styled.label`
+  cursor: pointer;
+  padding: 30px 20px;
+
 `;
 
 
-const CustomField = styled(Field) `
+const CustomField = styled(Field)`
   display: none;
+  width: 200px;
+
 `
 
 
