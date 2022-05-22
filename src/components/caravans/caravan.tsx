@@ -1,8 +1,8 @@
-import {CaravanData} from "../../../pages";
 import styled from "styled-components";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from "react-responsive-carousel";
 import Image from "next/image"
+import {CaravanData} from "../../service/typings/caravans";
 
 
 const Caravan = ({data}: { data: CaravanData }) => {
@@ -15,7 +15,7 @@ const Caravan = ({data}: { data: CaravanData }) => {
                 showIndicators={false}
                 showStatus={false}
             >
-                {data.pictures.map((img) =>
+                {data.pictures.map((img: string) =>
                     <div key={img}>
                         <Image
                             placeholder={"blur"}
