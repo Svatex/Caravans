@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import {colorTheme} from "../../styles/catalog/theme";
 
 interface Props {
     children: React.ReactNode,
@@ -7,7 +8,6 @@ interface Props {
 }
 
 const FormSection = ({children, heading}: Props) => {
-    const a = 'a'
     return (
         <SectionWrapper>
             <SectionName>
@@ -21,12 +21,11 @@ const FormSection = ({children, heading}: Props) => {
 export default FormSection
 
 const SectionWrapper = styled.div`
-  width: 100%;
-  max-width: 33%;
+  min-width: 20%;
+  width: fit-content;
+  min-height: 170px;
+  border: 1px solid ${colorTheme.Beige};
   padding: 10px;
-  margin: 10px;
-  height: 170px;
-  border: 1px solid black;
 `
 
 const SectionName = styled.p`

@@ -1,23 +1,16 @@
 import styled from "styled-components";
 import {Heading} from "../src/styles/layout-styles";
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import Caravan from "../src/components/caravans/caravan";
-import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import {Formik, Field} from "formik";
-import FormSection from "../src/components/filter/form-section";
-import {
-    BOTTOM_RANGE_LIMIT,
-    CaravanData,
-    CaravanTypes,
-    FilterForCaravans,
-    TOP_RANGE_LIMIT
-} from "../src/service/typings/caravans";
+import {Formik} from "formik";
+import {BOTTOM_RANGE_LIMIT, CaravanData, FilterForCaravans, TOP_RANGE_LIMIT} from "../src/service/typings/caravans";
 import {filterData} from "../src/service/caravan-filter";
 import CaravanTypesCheckbox from "../src/components/filter/caravan-types";
 import PriceRangeSlider from "../src/components/filter/range-slider";
 import InstantBookableSelect from "../src/components/filter/instant-bookable-select";
+import Image from "next/image";
 
 const Home = () => {
     const [caravans, setCaravans] = useState<Array<CaravanData> | undefined>()
@@ -39,7 +32,6 @@ const Home = () => {
             })
     }
 
-
     useEffect(() => {
         getCaravanData()
     }, [])
@@ -50,7 +42,9 @@ const Home = () => {
 
     return (
         <PageWrapper>
-            <Heading>Prague Labs</Heading>
+            <Heading>
+                <Image src={"/prague-labs-logo.svg"} width={200} height={35}/>
+            </Heading>
             <FormWrapper>
                 <Formik
                     initialValues={{
@@ -95,12 +89,16 @@ const CaravansWrapper = styled.div`
   flex-wrap: wrap;
 `
 const FormWrapper = styled.div`
+  display: flex;
   width: 100%;
 `
 
 const FormikForm = styled.div`
   width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
 `
 
 

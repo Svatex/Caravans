@@ -3,6 +3,7 @@ import {CaravanTypes, FilterForCaravans} from "../../service/typings/caravans";
 import styled from "styled-components";
 import {Field, useFormikContext} from "formik";
 import FormSection from "./form-section";
+import {colorTheme} from "../../styles/catalog/theme";
 
 const CaravanTypesCheckbox = () => {
     const {values, submitForm, handleChange} = useFormikContext<FilterForCaravans>();
@@ -49,8 +50,10 @@ const CaravanTypesCheckbox = () => {
                                         submitForm()
                                     }}
                                 />
-                                {caravanType.type}
-                                {caravanType.text}
+                                <TypeTextWrapper>
+                                    <TypeHeading>{caravanType.type}</TypeHeading>
+                                    <TypeDescription>{caravanType.text}</TypeDescription>
+                                </TypeTextWrapper>
                             </Label>
                         </CaravanType>
                     )
@@ -68,37 +71,51 @@ const TypesWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `
 
 const CaravanType = styled.div`
-  border: 1px solid #EDEAE3;
+  border: 1px solid ${colorTheme.Beige};
   border-radius: 8px;
   width: fit-content;
   height: 90px;
-  color: #9C8C8C;
+  color: ${colorTheme.DarkGrey};
   font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin:5px;
 
   :hover {
-    border: 2px solid #119383;
+    border: 2px solid ${colorTheme.Green};
   }
 
   &.active {
-    border: 2px solid #119383;
+    border: 2px solid ${colorTheme.Green};
   }
 `
 
 const Label = styled.label`
   cursor: pointer;
-  padding: 30px 20px;
-
+  padding: 20px;
+  
 `;
-
 
 const CustomField = styled(Field)`
   display: none;
   width: 200px;
+`
 
+const TypeTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 140px;
+`
+
+const TypeHeading = styled.p`
+    color: ${colorTheme.DarkBlue};
+`
+
+const TypeDescription = styled.p`
+    font-size: 12px;
 `
