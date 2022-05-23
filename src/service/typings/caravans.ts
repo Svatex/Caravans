@@ -29,4 +29,5 @@ export enum CaravanTypes {
 
 export const BOTTOM_RANGE_LIMIT = 0
 export const TOP_RANGE_LIMIT = 4000
+export const PAGES_TO_LOAD = 10
 
