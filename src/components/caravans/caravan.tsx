@@ -15,6 +15,7 @@ const Caravan = ({data}: { data: CaravanData }) => {
                 showThumbs={false}
                 showIndicators={false}
                 showStatus={false}
+                dynamicHeight
             >
                 {data.pictures.map((img: string) =>
                     <div key={img}>
@@ -58,7 +59,6 @@ const Caravan = ({data}: { data: CaravanData }) => {
                 <PriceTextBold>
                     {data.price} Kč/den
                 </PriceTextBold>
-
             </SectionPrice>
         </CaravanWrapper>
     )
