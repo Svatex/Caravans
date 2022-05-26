@@ -35,14 +35,14 @@ const CaravanTypesCheckbox = () => {
                         <CaravanType
                             key={caravanType.type}
                             className={
-                                values.checked.includes(caravanType.type) ? "active" : ""
+                                values.types.includes(caravanType.type) ? "active" : ""
                             }
                         >
                             <Label
                             >
                                 <CustomField
                                     type="checkbox"
-                                    name="checked"
+                                    name="types"
                                     value={caravanType.type}
 
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => {

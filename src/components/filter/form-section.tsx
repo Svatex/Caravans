@@ -1,17 +1,21 @@
 import styled from "styled-components";
 import React from "react";
 import {colorTheme} from "../../styles/catalog/theme";
+import Image from "next/image";
 
 interface Props {
     children: React.ReactNode,
     heading: string
+    icon?: string
 }
 
-const FormSection = ({children, heading}: Props) => {
+const FormSection = ({children, heading, icon}: Props) => {
     return (
         <SectionWrapper>
             <SectionName>
                 {heading}
+                &nbsp;
+                {icon && <Image src={icon} width={20} height={20}/>}
             </SectionName>
             {children}
         </SectionWrapper>
@@ -38,6 +42,8 @@ const SectionWrapper = styled.div`
 `
 
 const SectionName = styled.p`
+  display: flex;
+  align-items: center;
     color: ${colorTheme.DarkGrey};
   padding: 5px;
 `

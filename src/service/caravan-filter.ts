@@ -1,14 +1,19 @@
-import {CaravanData, FilterForCaravans} from "./typings/caravans";
+import {CaravanData, CaravanTypes, FilterForCaravans} from "./typings/caravans";
 
+/**
+ *  Apply selected filters on data from server
+ * return Array of fitting items
+ * */
 export const filterData = (caravans: CaravanData[], filter: FilterForCaravans) => {
     return caravans?.filter(
         (caravan) => {
-            const {topRange, bottomRange, checked, instantBookable} = filter
+            const {topRange, bottomRange, types, instantBookable} = filter
             const {price, vehicleType} = caravan
 
             const isInstantBookable = (instantBookable === "true");
 
-            if (checked.length === 0) {
+            /** If there is not selected type of caravans -> Show all types */
+            if (types.length === 0) {
                 return (
                     price < topRange &&
                     price > bottomRange &&
@@ -19,7 +24,7 @@ export const filterData = (caravans: CaravanData[], filter: FilterForCaravans) =
                 price < topRange &&
                 price > bottomRange &&
                 isInstantBookable === caravan.instantBookable &&
-                checked.includes(vehicleType)
+                types.includes(<CaravanTypes>vehicleType)
             )
         })
 }

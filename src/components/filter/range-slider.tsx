@@ -6,6 +6,14 @@ import {BOTTOM_RANGE_LIMIT, FilterForCaravans, TOP_RANGE_LIMIT} from "../../serv
 import {colorTheme} from "../../styles/catalog/theme";
 import styled from "styled-components";
 
+const handleStyle = {
+    backgroundColor: colorTheme.Green,
+    width: 25,
+    height: 25,
+    top: 0,
+    border: `1px solid ${colorTheme.Green}`
+}
+
 const PriceRangeSlider = () => {
     const {values, submitForm, handleChange, setFieldValue} = useFormikContext<FilterForCaravans>();
 
@@ -25,38 +33,23 @@ const PriceRangeSlider = () => {
                         submitForm()
                     })}
                     trackStyle={{backgroundColor: colorTheme.Green}}
-                    handleStyle={[
-                        {
-                            backgroundColor: colorTheme.Green,
-                            width: 25,
-                            height: 25,
-                            top: 0,
-                            border: `1px solid ${colorTheme.Green}`
-                        },
-                        {
-                            backgroundColor: colorTheme.Green,
-                            width: 25,
-                            height: 25,
-                            top: 0,
-                            border: `1px solid ${colorTheme.Green}`
-                        }
-                    ]}
+                    handleStyle={[handleStyle, handleStyle]}
                     railStyle={{backgroundColor: colorTheme.DarkGrey}}
                     style={{width: "90%", paddingBottom: 30}}
                 />
                 <FieldsWrapper>
                     <FieldWrapper>
-                    <RangeField
-                        name="bottomRange"
-                        type="number"
-                        step={"20"}
-                        min={BOTTOM_RANGE_LIMIT}
-                        max={TOP_RANGE_LIMIT}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                            handleChange(e)
-                            submitForm()
-                        }}
-                    />
+                        <RangeField
+                            name="bottomRange"
+                            type="number"
+                            step={"20"}
+                            min={BOTTOM_RANGE_LIMIT}
+                            max={TOP_RANGE_LIMIT}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                handleChange(e)
+                                submitForm()
+                            }}
+                        />
                     </FieldWrapper>
                     <FieldWrapper>
                         <RangeField
@@ -97,7 +90,7 @@ const FieldWrapper = styled.div`
   width: 48%;
   max-width: 160px;
   position: relative;
-  
+
   &:after {
     content: "Kč";
     position: absolute;
@@ -118,7 +111,7 @@ const RangeField = styled(Field)`
     border: 1px solid ${colorTheme.Green};
 
   }
-  
+
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;

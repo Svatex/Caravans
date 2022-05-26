@@ -8,7 +8,6 @@ import {
     BOTTOM_RANGE_LIMIT,
     CaravanData,
     FilterForCaravans,
-    PAGES_TO_LOAD,
     TOP_RANGE_LIMIT
 } from "../src/service/typings/caravans";
 import {filterData} from "../src/service/caravan-filter";
@@ -16,7 +15,7 @@ import CaravanTypesCheckbox from "../src/components/filter/caravan-types";
 import PriceRangeSlider from "../src/components/filter/range-slider";
 import InstantBookableSelect from "../src/components/filter/instant-bookable-select";
 import Image from "next/image";
-import {colorTheme} from "../src/styles/catalog/theme";
+import ShowMore from "../src/components/caravans/show-more";
 
 const Home = () => {
     const [caravans, setCaravans] = useState<Array<CaravanData> | undefined>()
@@ -27,7 +26,7 @@ const Home = () => {
             bottomRange: BOTTOM_RANGE_LIMIT,
             topRange: TOP_RANGE_LIMIT,
             instantBookable: "true",
-            checked: []
+            types: []
         }
     )
 
@@ -59,7 +58,7 @@ const Home = () => {
                         bottomRange: 0,
                         topRange: TOP_RANGE_LIMIT,
                         instantBookable: "true",
-                        checked: []
+                        types: []
                     }}
                     validateOnChange={false}
                     validateOnMount={false}
@@ -76,17 +75,16 @@ const Home = () => {
             </FormWrapper>
             <CaravansWrapper>
                 {dataToDisplay && dataToDisplay.map((caravan, index) => {
-                    if (index < pagesCount) return <Caravan key={caravan.name + Math.random()} data={caravan}/>
-                }
+                        if (index < pagesCount) return <Caravan key={caravan.name + Math.random()} data={caravan}/>
+                    }
                 )}
             </CaravansWrapper>
             <ShowMoreWrapper>
-                <ShowMoreButton
-                    onClick={
-                        ()=> setPagesCount(pagesCount+PAGES_TO_LOAD)
-                    }>
-                    Ukázat další
-                </ShowMoreButton>
+                <ShowMore
+                    dataToDisplay={dataToDisplay}
+                    setPagesCount={setPagesCount}
+                    pagesCount={pagesCount}
+                />
             </ShowMoreWrapper>
         </PageWrapper>
     )
@@ -95,7 +93,7 @@ const Home = () => {
 
 const Heading = styled.h1`
   margin: 20px 60px;
-  
+
   @media (max-width: 850px) {
     width: 100%;
     text-align: center;
@@ -131,15 +129,6 @@ const FormikForm = styled.div`
   @media (max-width: 850px) {
     flex-wrap: wrap;
   }
-`
-
-const ShowMoreButton = styled.button`
-  padding: 13px 36px;
-  border-radius: 8px;
-  background-color: ${colorTheme.Green};
-  color: white;
-  border: none;
-  margin: 20px 20px 100px 20px ;
 `
 
 const ShowMoreWrapper = styled.div`

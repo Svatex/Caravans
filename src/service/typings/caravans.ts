@@ -16,7 +16,7 @@ export interface FilterForCaravans {
     bottomRange: 0,
     instantBookable: string,
     //TODO: ARRAY!
-    checked: any
+    types: CaravanTypes[]
 }
 
 export enum CaravanTypes {
