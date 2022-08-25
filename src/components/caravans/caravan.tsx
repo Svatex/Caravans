@@ -58,6 +58,10 @@ const Caravan = ({data}: { data: CaravanData }) => {
                 </PriceText>
                 <PriceTextBold>
                     {data.price} Kč/den
+                    &nbsp;
+                    {data.instantBookable &&
+                        <Image src={"/icons/icon-fast-reservation.svg"} width={20} height={20}/>
+                    }
                 </PriceTextBold>
             </SectionPrice>
         </CaravanWrapper>
@@ -110,6 +114,8 @@ const PriceText = styled.p`
 `
 
 const PriceTextBold = styled(PriceText)`
+  display: flex;
+  align-items: center;
   font-weight: bold;
   color: ${colorTheme.DarkBlue};
 `
