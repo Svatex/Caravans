@@ -1,8 +1,9 @@
-import {CaravanData} from "../../../pages";
 import styled from "styled-components";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from "react-responsive-carousel";
 import Image from "next/image"
+import {CaravanData} from "../../service/typings/caravans";
+import {colorTheme} from "../../styles/catalog/theme";
 
 
 const Caravan = ({data}: { data: CaravanData }) => {
@@ -14,8 +15,9 @@ const Caravan = ({data}: { data: CaravanData }) => {
                 showThumbs={false}
                 showIndicators={false}
                 showStatus={false}
+                dynamicHeight
             >
-                {data.pictures.map((img) =>
+                {data.pictures.map((img: string) =>
                     <div key={img}>
                         <Image
                             placeholder={"blur"}
@@ -44,6 +46,7 @@ const Caravan = ({data}: { data: CaravanData }) => {
                     {data.toilet &&
                         <Image src={"/icons/icon-toilet.svg"} width={20} height={20}/>
                     }
+                    &nbsp;
                     {data.shower &&
                         <Image src={"/icons/icon-shower.svg"} width={20} height={20}/>
                     }
@@ -55,13 +58,16 @@ const Caravan = ({data}: { data: CaravanData }) => {
                 </PriceText>
                 <PriceTextBold>
                     {data.price} Kč/den
+                    &nbsp;
+                    {data.instantBookable &&
+                        <Image src={"/icons/icon-fast-reservation.svg"} width={20} height={20}/>
+                    }
                 </PriceTextBold>
-
             </SectionPrice>
         </CaravanWrapper>
     )
-
 }
+
 export default Caravan
 
 
@@ -72,13 +78,13 @@ const CaravanWrapper = styled.div`
   flex: 1 0 300px;
   max-width: 400px;
   height: fit-content;
-  border: 1px solid beige;
+  border: 1px solid ${colorTheme.Beige};
   border-radius: 8px;
 `
 const Section = styled.div`
   margin: 5px 16px;
   padding: 5px 0;
-  border-bottom: 1px solid beige;
+  border-bottom: 1px solid ${colorTheme.Beige};
 `
 
 const SectionPrice = styled(Section)`
@@ -88,13 +94,13 @@ const SectionPrice = styled(Section)`
 `
 
 const Type = styled.p`
-  color: #FF5E55;
+  color: ${colorTheme.Orange};
   font-size: 12px;
   text-transform: uppercase;
   font-weight: bold;
 `
 const Name = styled.p`
-  color: #1F2244;
+  color: ${colorTheme.DarkBlue};
   font-size: 24px;
   font-weight: bold;
 `
@@ -104,12 +110,14 @@ const Location = styled.p`
 
 const PriceText = styled.p`
   font-size: 16px;
-  color: #9C8C8C;
+  color: ${colorTheme.DarkGrey};
 `
 
 const PriceTextBold = styled(PriceText)`
+  display: flex;
+  align-items: center;
   font-weight: bold;
-  color: #1F2244;
+  color: ${colorTheme.DarkBlue};
 `
 const Properties = styled.div`
   display: flex;
